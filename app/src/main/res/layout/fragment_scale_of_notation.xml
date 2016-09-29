@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.pk.scaleofnotation.ScaleOfNotationFragment"
+    android:layout_margin="@dimen/sonf_main_layout_margin">
+
+    <TextView
+        android:text="@string/sonf_binary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sonf_binary_result"
+        android:layout_marginTop="@dimen/sonf_text_view_top_margin"
+        android:textSize="@dimen/sonf_text_view_text_size"/>
+
+    <TextView
+        android:text="@string/sonf_octal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sonf_octal_result"
+        android:layout_marginTop="@dimen/sonf_text_view_top_margin"
+        android:textSize="@dimen/sonf_text_view_text_size"/>
+
+    <TextView
+        android:text="@string/sonf_hexadecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sonf_hexadecimal_result"
+        android:layout_marginTop="@dimen/sonf_text_view_top_margin"
+        android:textSize="@dimen/sonf_text_view_text_size"/>
+</LinearLayout>
