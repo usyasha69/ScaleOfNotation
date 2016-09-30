@@ -3,9 +3,9 @@ package com.example.pk.scaleofnotation;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
 
 
 public class PutInformationFragment extends Fragment {
@@ -23,6 +24,8 @@ public class PutInformationFragment extends Fragment {
     EditText putConvertToOctal;
     @BindView(R.id.pif_put_convert_to_hexadecimal)
     EditText putConvertToHexadecimal;
+
+    private Handler handler;
 
     public void setScaleOfNotationListener(ScaleOfNotationListener listener) {
         this.scaleOfNotationListener = listener;
@@ -41,94 +44,71 @@ public class PutInformationFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        handler = new Handler();
+    }
+
+    @OnTextChanged(value = R.id.pif_put_convert_to_binary
+            , callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void onTextChangedBinary(Editable editable) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text = putConvertToBinary.getText().toString();
+
+                if (!text.isEmpty()) {
+                    scaleOfNotationListener.convertToBinary(Integer.parseInt(text));
+                } else {
+                    Toast.makeText(getContext()
+                            , "Please, put a number!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 3000);
+    }
+
+    @OnTextChanged(value = R.id.pif_put_convert_to_octal
+            , callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void onTextChangedOctal(Editable editable) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text = putConvertToOctal.getText().toString();
+
+                if (!text.isEmpty()) {
+                    scaleOfNotationListener.convertToOctal(Integer.parseInt(text));
+                } else {
+                    Toast.makeText(getContext(), "Please, put a number!"
+                            , Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 3000);
+    }
+
+    @OnTextChanged(value = R.id.pif_put_convert_to_hexadecimal
+            , callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void onTextChangedHexadecimal(Editable editable) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text = putConvertToHexadecimal.getText().toString();
+
+                if (!text.isEmpty()) {
+                    scaleOfNotationListener.convertToHexadecimal(Integer.parseInt(text));
+                } else {
+                    Toast.makeText(getContext(), "Please, put a number!"
+                            , Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 3000);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_put_information, container, false);
         ButterKnife.bind(this, view);
-
-        putConvertToBinary.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        String text = putConvertToBinary.getText().toString();
-
-                        if (!text.isEmpty()) {
-                            scaleOfNotationListener.convertToBinary(Integer.parseInt(text));
-                        } else {
-                            Toast.makeText(getContext(), "Please, put a number!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, 3000);
-            }
-        });
-
-        putConvertToOctal.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        String text = putConvertToOctal.getText().toString();
-
-                        if (!text.isEmpty()) {
-                            scaleOfNotationListener.convertToOctal(Integer.parseInt(text));
-                        } else {
-                            Toast.makeText(getContext(), "Please, put a number!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, 3000);
-            }
-        });
-
-        putConvertToHexadecimal.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        String text = putConvertToHexadecimal.getText().toString();
-
-                        if (!text.isEmpty()) {
-                            scaleOfNotationListener.convertToHexadecimal(Integer.parseInt(text));
-                        } else {
-                            Toast.makeText(getContext(), "Please, put a number!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, 3000);
-            }
-        });
 
         return view;
     }
